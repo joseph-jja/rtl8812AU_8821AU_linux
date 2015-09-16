@@ -1382,7 +1382,12 @@ static int cfg80211_rtw_set_default_key(struct wiphy *wiphy,
 
 static int cfg80211_rtw_get_station(struct wiphy *wiphy,
 				    struct net_device *ndev,
-				    u8 *mac, struct station_info *sinfo)
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0))
+				    u8 *mac, 
+#else
+				    const u8 *mac, 
+#endif
+                                    struct station_info *sinfo)
 {
 	int ret = 0;
 	_adapter *padapter = wiphy_to_adapter(wiphy);
